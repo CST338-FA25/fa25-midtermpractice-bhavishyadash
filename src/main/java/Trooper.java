@@ -1,16 +1,22 @@
+
 import java.util.*;
 import java.util.Objects;
-/**
- * @author bhavishya
- * @Since 18/11/25
- **/
-public class Trooper {
+
+
+
+public abstract class Trooper {
+
     private String unit;
     private int number;
 
+    // Shared/protected members used by subclasses
     protected double marchSpeed;
     protected double marchModifier;
     protected String trooperKind;
+
+    public Trooper() {
+        this("AA", 0);
+    }
 
     public Trooper(String unit, int number) {
         this.unit = unit;
@@ -18,45 +24,21 @@ public class Trooper {
         this.marchSpeed = 5.0;
     }
 
-    public String getUnit() {
-        return unit;
-    }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
+    public String getUnit() { return unit; }
+    public void setUnit(String unit) { this.unit = unit; }
 
-    public int getNumber() {
-        return number;
-    }
+    public int getNumber() { return number; }
+    public void setNumber(int number) { this.number = number; }
 
-    public void setNumber(int number) {
-        this.number = number;
-    }
+    public double getMarchSpeed() { return marchSpeed; }
+    public void setMarchSpeed(double marchSpeed) { this.marchSpeed = marchSpeed; }
 
-    public double getMarchSpeed() {
-        return marchSpeed;
-    }
+    public double getMarchModifier() { return marchModifier; }
+    public void setMarchModifier(double marchModifier) { this.marchModifier = marchModifier; }
 
-    public void setMarchSpeed(double marchSpeed) {
-        this.marchSpeed = marchSpeed;
-    }
-
-    public double getMarchModifier() {
-        return marchModifier;
-    }
-
-    public void setMarchModifier(double marchModifier) {
-        this.marchModifier = marchModifier;
-    }
-
-    public String getTrooperKind() {
-        return trooperKind;
-    }
-
-    public void setTrooperKind(String trooperKind) {
-        this.trooperKind = trooperKind;
-    }
+    public String getTrooperKind() { return trooperKind; }
+    public void setTrooperKind(String trooperKind) { this.trooperKind = trooperKind; }
 
     public static void addToUnit(HashMap<String, List<Trooper>> units, Trooper t) {
         if (t == null || units == null) return;
@@ -68,11 +50,9 @@ public class Trooper {
     public abstract double march(double duration);
 
     public boolean attack(Trooper target, int roll) {
-// Always print these two lines first
         System.out.println(this + " is attacking " + target);
         System.out.println(this + " rolled a " + roll);
 
-// Self-target or natural 1
         if (this == target || roll == 1) {
             System.out.println(this + " is targeting itself...");
             System.out.println(this + " rolled a " + roll + " and hurt itself in the confusion.");
@@ -110,12 +90,12 @@ public class Trooper {
             }
         }
 
-// Fallback for any other Trooper subtype not specified
         return roll >= 10;
     }
 
     @Override
     public String toString() {
+        // unit + number + ": " (note the trailing space after colon to match sample formatting)
         return (unit == null ? "" : unit) + number + ": ";
     }
 
@@ -128,12 +108,12 @@ public class Trooper {
                 && Double.compare(trooper.marchSpeed, marchSpeed) == 0
                 && Double.compare(trooper.marchModifier, marchModifier) == 0
                 && Objects.equals(unit, trooper.unit)
-                && Objects.equals(number, trooper.number);
-
-
+                && Objects.equals(trooperKind, trooper.trooperKind);
     }
+
     @Override
     public int hashCode() {
-        return Objects.hash(unit, number, marchSpeed, marchModifier);
+        return Objects.hash(unit, number, marchSpeed, marchModifier, trooperKind);
     }
 }
+

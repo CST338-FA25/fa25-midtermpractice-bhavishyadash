@@ -35,6 +35,6 @@ class StormTrooper extends Trooper {
     }
     @Override
     public String toString() {
-        return (name == null) ? "" : name) + "(" + super.toString() + ") a" + this.trooperKind;
+        return (name == null ? "" : name) + "(" + super.toString() + ") a " + this.trooperKind;
     }
 }
